@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+    <head>
+
+        <script src="js/jquery.min.js" type="text/javascript"></script>
+        <script src="js/jqgrid/js/jquery.jqGrid.min.js" type="text/javascript"></script>
+        <script src="js/jqgrid/js/i18n/grid.locale-es.js" type="text/javascript"></script>
+        <link href="js/jqgrid/css/ui.jqgrid.css" rel="stylesheet" type="text/css"/>
+        <link href="js/jqueryUI/css/jquery-ui.css" rel="stylesheet" type="text/css"/>
+        <script src="js/jqueryUI/js/jquery-ui.js" type="text/javascript"></script>
+
+        <meta charset="utf-8" />
+        <title>CRUD</title>
+    </head>
+    <body bgcolor="#99CCFF">
+        <a href="crudProductos.html"><img src="images/Productos.png"></a>
+        <a href="crudClientes.html"><img src="images/Clientes.png"></a>
+        <a href="crudPedidos.html"><img src="images/Pedidos.png"></a>
+
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+        <table id="jqGrid2"></table>
+        <button id="buscar" type="button">Buscar por Pedido</button>
+        <button id="borrar" type="button">Borrar</button>
+        <button id="actualizar" type="button">Actualizar</button>
+
+        <div id="divBuscar">
+            <form id="formularioBuscar">
+                CodigoPedido:<br>
+                <input type="text" name="Codigopedido" class="codigopedido">
+            </form>
+        </div>
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+
+                $("#jqGrid").jqGrid({
+                    url: 'pedidosDOM.php',
+                    datatype: "json",
+                    colNames: ['CodigoPedido', 'FechaPedido', 'Estado', 'Comentarios', 'CodigoCliente'],
+                    colModel: [
+                        {name: 'CodigoPedido', index: 'id', width: 55},
+                        {name: 'FechaPedido', index: 'name', width: 90},
+                        {name: 'Estado', index: 'name asc, invdate', width: 100},
+                        {name: 'Comentarios', index: 'name', width: 80, align: "right"},
+                        {name: 'CodigoCliente', index: 'tax', width: 80, align: "right"}
+                    ],
+                    rowNum: 50,
+                    rowList: [10, 20, 30],
+                    pager: '#jqGridPager',
+                    sortname: 'CodigoPedido',
+                    viewrecords: true,
+                    sortorder: "desc",
+                    caption: "Pedidos"
+                });
+                $("#jqGrid").jqGrid('navGrid', '#jqGridPager', {edit: false, add: false, del: false});
+
+
+
+
+                $(function() {
+                    $("#divBuscar").dialog({
+                        modal: true,
+                        autoOpen: false,
+                        buttons: {
+                            "Buscar": function() {
+                                var busqueda = $('#formularioBuscar').serialize();
+                                if (busqueda != "Codigopedido=") {
+                                    $("#jqGrid2").jqGrid({
+                                        url: 'detallesPorPedido.php?' + busqueda,
+                                        datatype: "json",
+                                        colNames: ['CodigoPedido', 'CodigoProducto', 'Cantidad', 'PrecioUnidad'],
+                                        colModel: [
+                                            {name: 'CodigoPedido', index: 'id', width: 55},
+                                            {name: 'CodigoProducto', index: 'name', width: 90},
+                                            {name: 'Cantidad', index: 'name asc, invdate', width: 100},
+                                            {name: 'PrecioUnidad', index: 'name', width: 80, align: "right"}
+                                        ],
+                                        rowNum: 50,
+                                        rowList: [10, 20, 30],
+                                        pager: '#jqGridPager',
+                                        sortname: 'CodigoPedido',
+                                        viewrecords: true,
+                                        sortorder: "desc",
+                                        caption: "Detalle del pedido"
+                                    });
+                                } else {
+                                    alert("Escribe una Codigo de Pedido correcto");
+                                }
+
+
+                            },
+                            "Cerrar": function() {
+                                $(this).dialog("close");
+                            }
+                        }
+
+                    });
+                    $("#buscar").on("click", function() {
+                        $("#divBuscar").dialog("open");
+                    });
+                });
+
+
+
+
+                $("#borrar").click(function() {
+                    var id = $("#jqGrid").jqGrid('getGridParam', 'selrow');
+                    if (id) {
+                        var ret = $("#jqGrid").jqGrid('getRowData', id);
+                        var cod1 = ret.CodigoPedido;
+                        //alert("Se va a borrar el juego con el código: "+cod1);
+                        $.ajax({
+                            type: 'POST',
+                            url: 'deletePedido.php',
+                            data: {cod: cod1},
+                            success: function(datos) {
+                                if (datos == "OK") {
+                                    alert("Se ha borrado correctamente");
+                                    $("#jqGrid").trigger("reloadGrid", [{page: 1}]);
+                                } else {
+                                    alert("La operacion no se ha realizado con exito");
+                                }
+                            }
+                        });
+
+                    } else {
+                        alert("Selecciona un dato de la tabla");
+                    }
+
+                });
+
+
+
+                $("#actualizar").click(function() {
+                    
+
+                });
+
+
+            });
+
+
+
+
+
+
+        </script>
+
+
+    </body>
+</html>

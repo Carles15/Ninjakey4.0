@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+    <head>
+
+        <script src="js/jquery.min.js" type="text/javascript"></script>
+        <script src="js/jqgrid/js/jquery.jqGrid.min.js" type="text/javascript"></script>
+        <script src="js/jqgrid/js/i18n/grid.locale-es.js" type="text/javascript"></script>
+        <link href="js/jqgrid/css/ui.jqgrid.css" rel="stylesheet" type="text/css"/>
+        <link href="js/jqueryUI/css/jquery-ui.css" rel="stylesheet" type="text/css"/>
+        <script src="js/jqueryUI/js/jquery-ui.js" type="text/javascript"></script>
+
+        <meta charset="utf-8" />
+        <title>CRUD</title>
+    </head>
+    <body bgcolor="#99CCFF">
+        <a href="crudProductos.html"><img src="images/Productos.png"></a>
+        <a href="crudClientes.html"><img src="images/Clientes.png"></a>
+        <a href="crudPedidos.html"><img src="images/Pedidos.png"></a>
+        
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+        <table id="jqGrid2"></table>
+        <button id="buscar" type="button">Buscar por Categoria</button>
+        <button id="botonInsertar" type="button">Añadir</button>
+        <button id="borrar" type="button">Borrar</button>
+        <button id="actualizar" type="button">Actualizar</button>
+
+        <div id="divInsertar">
+            <form id="formularioInsertar">
+                Nombre:<br>
+                <input type="text" name="Nombre" class="nombre">
+                <br>
+                Categoria:<br>
+                <input type="text" name="Categoria" class="categoria">
+                <br>
+                Descripcion:<br>
+                <input type="text" name="Descripcion" class="descripcion">
+                <br>
+                CantidadEnStock:<br>
+                <input type="text" name="CantidadEnStock" class="stock">
+                <br>
+                PrecioVenta:<br>
+                <input type="text" name="PrecioVenta" class="precio">
+                <br>
+                UrlImagen:<br>
+                <input type="text" name="UrlImagen" class="url">
+            </form>
+        </div>
+
+        <div id="divBuscar">
+            <form id="formularioBuscar">
+                Categoria:<br>
+                <input type="text" name="Category" class="categoriaBuscar">
+            </form>
+        </div>
+        
+        <div id="divActualizar">
+            <form id="formularioActualizar">
+                CodigoProducto:<br>
+                <input type="text" name="CodigoProducto" class="codigoproducto" readonly="readonly">
+                <br>
+                Nombre:<br>
+                <input type="text" name="Nombre" class="nombre">
+                <br>
+                Categoria:<br>
+                <input type="text" name="Categoria" class="categoria">
+                <br>
+                Descripcion:<br>
+                <input type="text" name="Descripcion" class="descripcion">
+                <br>
+                CantidadEnStock:<br>
+                <input type="text" name="CantidadEnStock" class="stock">
+                <br>
+                PrecioVenta:<br>
+                <input type="text" name="PrecioVenta" class="precio">
+                <br>
+                UrlImagen:<br>
+                <input type="text" name="UrlImagen" class="url">
+            </form>
+        </div>
+        
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+
+                $("#jqGrid").jqGrid({
+                    url: 'articulosDOM.php',
+                    datatype: "json",
+                    colNames: ['CodigoProducto', 'Nombre', 'Categoria', 'Descripcion', 'CantidadEnStock', 'PrecioVenta', 'UrlImagen'],
+                    colModel: [
+                        {name: 'CodigoProducto', index: 'id', width: 55},
+                        {name: 'Nombre', index: 'name', width: 90},
+                        {name: 'Categoria', index: 'name asc, invdate', width: 100},
+                        {name: 'Descripcion', index: 'name', width: 80, align: "right"},
+                        {name: 'CantidadEnStock', index: 'tax', width: 80, align: "right"},
+                        {name: 'PrecioVenta', index: 'tax', width: 80, align: "right"},
+                        {name: 'UrlImagen', index: 'name', width: 150, sortable: false}
+                    ],
+                    rowNum: 10,
+                    rowList: [10, 20, 30],
+                    pager: '#jqGridPager',
+                    sortname: 'CodigoProducto',
+                    viewrecords: true,
+                    sortorder: "desc",
+                    caption: "Articulos"
+                });
+                $("#jqGrid").jqGrid('navGrid', '#jqGridPager', {edit: false, add: false, del: false});
+
+
+
+
+                $(function() {
+                    $("#divBuscar").dialog({
+                        modal: true,
+                        autoOpen: false,
+                        buttons: {
+                            "Buscar": function() {
+                                var busqueda = $('#formularioBuscar').serialize();
+                                if(busqueda!="Category="){
+                                $("#jqGrid2").jqGrid({
+                                    url: 'articulosPorCategoria.php?'+busqueda,
+                                    datatype: "json",
+                                    colNames: ['CodigoProducto', 'Nombre', 'Categoria', 'Descripcion', 'CantidadEnStock', 'PrecioVenta', 'UrlImagen'],
+                                    colModel: [
+                                        {name: 'CodigoProducto', index: 'id', width: 55},
+                                        {name: 'Nombre', index: 'name', width: 90},
+                                        {name: 'Categoria', index: 'name asc, invdate', width: 100},
+                                        {name: 'Descripcion', index: 'name', width: 80, align: "right"},
+                                        {name: 'CantidadEnStock', index: 'tax', width: 80, align: "right"},
+                                        {name: 'PrecioVenta', index: 'tax', width: 80, align: "right"},
+                                        {name: 'UrlImagen', index: 'name', width: 150, sortable: false}
+                                    ],
+                                    rowNum: 50,
+                                    rowList: [10, 20, 30],
+                                    sortname: 'CodigoProducto',
+                                    viewrecords: true,
+                                    sortorder: "desc",
+                                    caption: "Articulos encontrados"
+                                }); 
+                            }else{
+                                alert("Escribe una Categoria");
+                            }
+
+
+                            },
+                            "Cerrar": function() {
+                                $(this).dialog("close");
+                            }
+                        }
+
+                    });
+                    $("#buscar").on("click", function() {
+                        $("#divBuscar").dialog("open");
+                    });
+                });
+
+
+
+
+                $("#borrar").click(function() {
+                    var id = $("#jqGrid").jqGrid('getGridParam', 'selrow');
+                    if (id) {
+                        var ret = $("#jqGrid").jqGrid('getRowData', id);
+                        var cod1 = ret.CodigoProducto;
+                        //alert("Se va a borrar el juego con el código: "+cod1);
+                        $.ajax({
+                            type: 'POST',
+                            url: 'deleteArticulo.php',
+                            data: {cod: cod1},
+                            success: function(datos) {
+                                if (datos == "OK") {
+                                    alert("Se ha borrado correctamente");
+                                    $("#jqGrid").trigger("reloadGrid", [{page: 1}]);
+                                } else {
+                                    alert("La operacion no se ha realizado con exito");
+                                }
+                            }
+                        });
+
+                    } else {
+                        alert("Selecciona un dato de la tabla");
+                    }
+
+                });
+
+
+
+                $(function() {
+                    $('#divActualizar').dialog({
+                        modal: true,
+                        autoOpen: false,
+                        buttons: {
+                            "Actualizar": function() {
+                                var updatear = $('#formularioActualizar').serialize();
+                                alert(updatear);
+                                $.ajax({
+                                    type: 'POST',
+                                    url: 'updateProductos.php',
+                                    data: updatear,
+                                    success: function(datos) {
+                                        if (datos == "OK") {
+                                            alert("Actualizado satisfactoriamente");
+                                            $("#jqGrid").trigger("reloadGrid", [{page: 1}]);
+                                            $(this).dialog("close");
+                                        } else {
+                                            $('#jqGrid').append(datos);
+                                            alert("No actualizado");
+                                        }
+                                    }
+                                });
+                            }
+                        }
+
+                    });
+
+                    $("#actualizar").on("click", function() {
+                        var id = $("#jqGrid").jqGrid('getGridParam', 'selrow');
+                        if (id) {
+                            var ret = $("#jqGrid").jqGrid('getRowData', id);
+                            var cod1 = ret.CodigoProducto;
+                        }
+                        alert(cod1);
+                        $.ajax({
+                            type: 'POST',
+                            dataType: 'json',
+                            url: 'seleccionProducto.php',
+                            data: {cod1: cod1},
+                            success: function(datos) {
+                                $.each(datos, function(index) {
+                                    $('.codigoproducto').val(datos[index].CodigoProducto);
+                                    $('.nombre').val(datos[index].Nombre);
+                                    $('.categoria').val(datos[index].Categoria);
+                                    $('.descripcion').val(datos[index].Descripcion);
+                                    $('.stock').val(datos[index].CantidadEnStock);
+                                    $('.precio').val(datos[index].PrecioVenta);
+                                    $('.url').val(datos[index].UrlImagen);
+                                });
+
+
+                            }
+
+                        });
+                        $("#divActualizar").dialog("open");
+                    });
+                });
+
+
+
+                $(function() {
+                    $("#divInsertar").dialog({
+                        modal: true,
+                        autoOpen: false,
+                        buttons: {
+                            "Guardar": function() {
+                                //if ($(".nombre").val() || $(".categoria").val() || $(".descripcion").val() || $(".stock").val() || $(".precio").val() || $(".url").val() == "") {
+                                //    alert("Rellena todos los campos");
+                                //} else {
+                                var inserto = $('#formularioInsertar').serialize();
+                                //alert(inserto);
+                                $.ajax({
+                                    type: 'POST',
+                                    url: 'insertArticulo.php',
+                                    data: inserto,
+                                    success: function(datos) {
+                                        if (datos == "OK") {
+                                            //alert("Los datos se han insertado correctamente");
+                                            $("#jqGrid").trigger("reloadGrid", [{page: 1}]);
+                                            var inputs = document.getElementById('formularioInsertar').getElementsByTagName("input");
+                                            for (var i = 0; i < inputs.length; i++) {
+                                                inputs[i].value = "";
+                                            }
+                                        } else {
+                                            alert("La operacion no se ha realizado con exito");
+                                        }
+                                    }
+                                });
+                            },
+                            "Cerrar": function() {
+                                $(this).dialog("close");
+                            }
+                        }
+
+                    });
+                    $("#botonInsertar").on("click", function() {
+                        $("#divInsertar").dialog("open");
+                    });
+                });
+            });
+
+
+
+
+
+
+        </script>
+
+
+    </body>
+</html>

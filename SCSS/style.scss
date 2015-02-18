@@ -1,0 +1,400 @@
+//Variables globales
+$default_border_width: 1px;
+$default_border_type: solid;
+$default_border_color: black;
+$general_header_background: #11AAFF;
+$general_body_background:#FFF;
+$general_footer_background: #11AAFF;
+$default_background_links: #CFCFCF;
+$background_detaill_menu_home: #1772F7;
+$background_detaill_menu_categorias: #619CE8;
+$background_detaill_menu_ofertas: #98C0FE;
+$background_detaill_menu_rol: #ABCDFB;
+$background_detaill_menu_carrito: #00FF00;
+$header_size: 24%;
+$header_background_size: 50%;
+$logo_height: 100%;
+$default_buy_button_color: #3366FF;
+$paddingButtonTop: 10.05px;
+$paddingButtonRight: 15%;
+$paddingButtonBottom: 10.05px;
+$paddingButtonLeft: 25%;
+
+//Mixins
+@mixin def-border($borderwidth,$bordertype,$bordercolor){
+    border: $borderwidth $bordertype $bordercolor;
+}
+@mixin structure-margins($topmargins){
+    margin-top: $topmargins;
+}
+@mixin structure-paddings($padding){
+    padding-top: $padding;
+}
+
+@mixin buy-paddings($paddingtop,$paddingright,$paddingbottom,$paddingleft){
+    padding: $paddingtop $paddingright $paddingbottom $paddingleft;
+}
+
+@mixin set_background_color($localbackground){
+    background-color: $localbackground;
+}
+@mixin set_height($local_height){
+    height: $local_height;
+}
+@mixin set_width($local_width){
+    width: $local_width; 
+}
+
+//Definición de un tipo de letra propio
+@font-face {
+    font-family: "Comprar";
+    src: url("../fonts/Shoguns Clan.ttf");
+}
+
+
+/***************************************************************************
+**                           HEADER + LOGO                                **
+***************************************************************************/
+header{
+    width: cover;
+    @include set_background_color($general_header_background);
+    @include set_height($header_size);
+    background-image: url("../images/headtexture3.jpg");
+    background-size: 50%;
+    border-bottom: 5px black inset;
+    #logo{
+        background-image: url("../images/logo.png");
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        @include set_height($logo_height);
+    }
+}
+
+/***************************************************************************
+**                        BODY + MENU + DRAGZONE                          **
+***************************************************************************/
+
+body{
+
+    #fondo{
+        position: fixed;
+        @include structure-margins(42%);
+        z-index: 500;
+    }
+    margin: 0%;
+
+    #menu_lateral{
+        @include set_width(100%);
+        clear:left;
+    }
+    #menu_lateral ul{
+        position: fixed;
+        @include structure-margins(5%);
+        @include structure-paddings(0%);
+        left: -70px;
+        z-index:9999;
+        li{
+            @include set_width(100%);
+            -webkit-transition: width 0.2s;
+            transition: width 0.2s;
+            list-style: none;
+            &.shop:hover{
+                @include set_width(360px);
+            }
+            &.menu:hover{
+                margin-left: 18%;
+                @include set_width(500%);
+            }
+            a{
+                display: block;
+                width: 100%;
+                @include set_height(70px);
+                @include set_width(100%);
+                @include set_background_color($default_background_links);
+                background-repeat:no-repeat;
+                background-position:center center;
+                border-radius: 5px;
+                @include def-border($default_border_width,$default_border_type,#AFAFAF);
+
+                &.home{
+                    @include set_background_color($background_detaill_menu_home);
+                    background-image: url("../images/iconos/home.png");
+                }
+                &.categorias{
+                    @include set_background_color($background_detaill_menu_categorias);
+                    background-image: url("../images/iconos/categories.png");
+                }
+                &.ofertas{
+                    @include set_background_color($background_detaill_menu_ofertas);
+                    background-image: url("../images/iconos/offers.png");
+                }
+                &.contacto{
+                    @include set_background_color($background_detaill_menu_rol);
+                    background-image: url("../images/iconos/contact.png");
+                }
+                &.carrito{
+                    @include set_background_color($background_detaill_menu_carrito);
+                    background-image: url("../images/iconos/carrito.png");
+                }
+                &.home:hover{
+                    background-image: url("../images/home.jpg");
+                    background-size: 100% 100%;
+                }
+                &.categorias:hover{
+                    background-image: url("../images/categorias.jpg");
+                    background-size: 100% 100%;
+                }
+                &.ofertas:hover{
+                    background-image: url("../images/ofertas.png");
+                    background-size: 100% 100%;
+                }
+                &.carrito:hover{
+                    background-image: url("../images/carrito.jpg");
+                    background-size: 100% 100%;
+                }
+            }
+        }
+    }
+    
+    /***************************************************************************
+    **                                CATALOGO                                **
+    ***************************************************************************/
+    .imagen{
+        @include set_width(100%);
+    }
+    #top{
+        @include set_height(auto);
+        @include set_width(auto);
+        margin-left: 10%;
+        clear:right;
+
+
+        div.categoria-design{
+            width: 100%;
+            border-bottom: 3px gold solid;
+            margin-left: -3%;
+            img#imgRol:hover{
+                background-image: url("images/Rol.png");
+            }
+            img#imgAventura:hover{
+                background-image: url("images/Aventura.png");
+            }
+            img#imgAccion:hover{
+                background-image: url("images/Accion.png");
+            }
+            img#imgEstrategia:hover{
+                background-image: url("images/Estrategia.png");
+            }
+            img#imgShooter:hover{
+                background-image: url("images/Shooter.png");
+            }
+            img#imgArcade:hover{
+                background-image: url("images/Arcade.png");
+            }
+        }
+        div.portada{
+            @include set_width(21%);
+            float: left;
+            margin-right: 3%;
+            @include structure-margins(2%);
+            margin-bottom: 2%;
+            resize:none; 
+            img{
+                &:hover{
+                    -webkit-box-shadow: 0px 0px 44px 0px rgba(98,108,252,1);
+                    -moz-box-shadow: 0px 0px 44px 0px rgba(98,108,252,1);
+                    box-shadow: 0px 0px 44px 0px rgba(98,108,252,1);
+                }
+                &:active{
+                    -webkit-box-shadow: 0px 0px 44px 0px rgba(98,175,255,1);
+                    -moz-box-shadow: 0px 0px 44px 0px rgba(98,175,255,1);
+                    box-shadow: 0px 0px 44px 0px rgba(98,175,255,1);
+                }  
+            }
+            a.buy{
+                font-family: Comprar;
+                color: white;
+                background-color: $default_buy_button_color;
+                @include buy-paddings($paddingButtonTop,0,$paddingButtonBottom,0);
+                text-align: center;
+                display: block;
+                position: relative;
+                @include structure-margins(5%);
+                @include set_width(100%);
+                -webkit-box-shadow: 0px 6px 0px 0px rgba(130,137,245,1);
+                -moz-box-shadow: 0px 6px 0px 0px rgba(130,137,245,1);
+                box-shadow: 0px 6px 0px 0px rgba(130,137,245,1);
+
+                border-radius: 15px;
+                @include def-border($default_border_width,$default_border_type,#2952CC);
+                &:hover{
+                    background-color: #039;
+                    -webkit-box-shadow: 0px 6px 15px 5px rgba(28,149,255,1);
+                    -moz-box-shadow: 0px 6px 15px 5px rgba(28,149,255,1);
+                    box-shadow: 0px 6px 15px 5px rgba(28,149,255,1);
+                }
+                &:active{
+                    background-color: #034;
+                    -webkit-box-shadow: 0px 0px 0px 0px rgba(0,0,0,0);
+                    -moz-box-shadow: 0px 0px 0px 0px rgba(0,0,0,0);
+                    box-shadow: 0px 0px 0px 0px rgba(0,0,0,0);
+                }
+            }
+            img.carritoimagen{
+                width: 21%;
+            }
+        }
+
+        div.carritodetail{
+            float: none;
+            width: 100%; 
+            height:274px;
+            clear:both;
+            margin: 0%;
+        }
+
+        h1#carritotitle{
+            font-family: Comprar;
+            font-size: 50px;
+            margin: 10px 5px;
+            text-align: center;
+        }
+    }
+
+    /***************************************************************************
+    **                                FOOTER                                  **
+    ***************************************************************************/
+
+    footer{
+        clear: both;
+        background: url("../images/footer.png");
+        background-size: cover;
+        background-repeat: no-repeat;
+        @include set_height(18%);
+        img{
+            &#i1{
+                @include structure-margins(7%);
+                margin-left: 44.5%;
+            }
+        }
+        .bussiness{
+            float:right;
+        }
+    }
+
+
+    /**************************************************************************
+     **                         LOGIN/REGISTRO                               **
+     **************************************************************************/
+
+    #login_form{
+        display: none;
+        position: absolute;
+        left: 262px;
+        top: 1844.5px;
+        z-index: 9999;
+        opacity: 1;
+        height: auto;
+        width: auto;
+        background-color:white;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px 10px #999;
+        color: #111;
+        min-width: 450px;
+
+        #login_form_top{
+            border-radius:10px;
+            background-color:#11AAFF;
+            text-align:center;
+            font-size:200%;
+            padding:10px;
+        }
+
+        #login_form_bottom{
+            padding:10px;
+            margin:0px 5px 0px;
+
+            .button_form{
+                padding:10px 30px 10px;
+                margin:0px 50px 0px;
+                border-radius:7px;
+            }
+        }
+
+    }
+
+    #login_button,#registro_button,#carrito_button,#logout_button,#jqgrid_button{
+        float:right;
+        margin:10px 5px;
+        padding: 6px;
+        border-radius: 5px;
+        background-color: white;
+    }
+    
+    #usuario{
+        float:right;
+        margin: 15px 5px;
+    }
+
+    #nuevo_usuario{
+        border:black solid 1px;
+        padding: 5px;
+        margin-left: 30%;
+        margin-right: 49%;
+        margin-top: 10px;
+        background-color: #619CE8;
+    }
+    
+}
+
+/*************************************************************************
+*                              RESPONSIVE 300px                          *
+* NOTES: Desaparece el footer                                            *
+*        La idea para realizar esto, es que el footer nos                *
+*        parece supérfluo para esta vista                                *
+*************************************************************************/
+
+@media screen and(max-width: 300px){
+    body{
+        header{
+            @include set_width(auto);
+            @include set_height(11.5%);
+            background-image: 100% 100%;
+            #logo{
+                background-size: 70%;
+            }
+        }
+        #menu_lateral{
+            display:none;
+        }
+        img#fondo{
+            display:none;
+        }
+        article{
+            #top, #bottom{
+                float: none;
+                .portada{
+                    float: none;
+                    display: block;
+                    img{
+                        @include set_width(auto);
+                        margin-left: 25%;
+                        margin-bottom: 20%;
+                    }
+                    a.buy{
+                        display:none;
+                    }
+                }
+                margin-bottom: 5%;
+            }
+            #bottom{
+                clear: both;
+                display:none;
+            }
+        }
+        footer{
+            display:none;
+        } 
+    }
+}
+

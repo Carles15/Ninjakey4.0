@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+    <head>
+        <script src="../js/lib/jquery.min.js" type="text/javascript"></script>
+        <script src="../js/lib/jqgrid/js/jquery.jqGrid.min.js" type="text/javascript"></script>
+        <script src="../js/lib/jqgrid/js/i18n/grid.locale-es.js" type="text/javascript"></script>
+        <link href="../js/lib/jqgrid/css/ui.jqgrid.css" rel="stylesheet" type="text/css"/>
+        <link href="../js/lib/jqueryUI/css/jquery-ui.css" rel="stylesheet" type="text/css"/>
+        <script src="../js/lib/jqueryUI/js/jquery-ui.js" type="text/javascript"></script>
+        <script src="jsClientes.js" type="text/javascript"></script>
+        <meta charset="utf-8" />
+        <title>CRUD</title>
+    </head>
+    <body bgcolor="#99CCFF">
+        <a href="crudProductos.html"><img src="images/Productos.png"></a>
+        <a href="crudClientes.html"><img src="images/Clientes.png"></a>
+        <a href="crudPedidos.html"><img src="images/Pedidos.png"></a>
+
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+        <table id="jqGrid2"></table>
+        <button id="buscar" type="button">Buscar por Cliente</button>
+        <button id="botonInsertar" type="button">Añadir</button>
+        <button id="borrar" type="button">Borrar</button>
+        <button id="actualizar" type="button">Actualizar</button>
+
+        <div id="divInsertar">
+            <form id="formularioInsertar">
+                NombreCliente<br>
+                <input type="text" name="NombreCliente" class="nombrecliente">
+                <br>
+                Telefono<br>
+                <input type="text" name="Telefono" class="telefono">
+                <br>
+                LineaDireccion1<br>
+                <input type="text" name="LineaDireccion1" class="direccion">
+                <br>
+                Ciudad<br>
+                <input type="text" name="Ciudad" class="ciudad">
+                <br>
+                Region<br>
+                <input type="text" name="Region" class="region">
+                <br>
+                Pais<br>
+                <input type="text" name="Pais" class="pais">
+                <br>
+                CodigoPostal<br>
+                <input type="text" name="CodigoPostal" class="codigopostal">
+                <br>
+                Password<br>
+                <input type="text" name="Password" class="password">
+                <br>
+                Email<br>
+                <input type="text" name="Email" class="email">
+                <br>
+            </form>
+        </div>
+
+        <div id="divBuscar">
+            <form id="formularioBuscar">
+                CodigoCliente:<br>
+                <input type="text" name="Codigocliente" class="categoriaBuscar">
+            </form>
+        </div>
+        <div id="divActualizar">
+            <form id="formularioActualizar">
+                CodigoCliente<br>
+                <input type="text"  name="CodigoCliente" class="codigocliente" readonly="readonly">
+                <br>
+                NombreCliente<br>
+                <input type="text"  name="NombreCliente" class="nombrecliente">
+                <br>
+                Telefono<br>
+                <input type="text"  name="Telefono" class="telefono">
+                <br>
+                LineaDireccion1<br>
+                <input type="text"  name="LineaDireccion1" class="direccion">
+                <br>
+                Ciudad<br>
+                <input type="text"  name="Ciudad" class="ciudad">
+                <br>
+                Region<br>
+                <input type="text"  name="Region" class="region">
+                <br>
+                Pais<br>
+                <input type="text"  name="Pais" class="pais">
+                <br>
+                CodigoPostal<br>
+                <input type="text"  name="CodigoPostal" class="codigopostal">
+                <br>
+                Email<br>
+                <input type="email" name="Email" class="email">
+                <br>                
+                Password<br>
+                <input type="password"  name="Password" class="password">
+                <br>
+
+            </form>
+
+        </div>
+
+        
+
+    </body>
+</html>
